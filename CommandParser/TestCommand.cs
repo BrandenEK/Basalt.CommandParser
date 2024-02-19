@@ -1,9 +1,9 @@
 ﻿
 namespace CommandParser;
 
-public class TestArgument : ArgumentData
+public class TestCommand : CommandData
 {
-    public TestArgument() : base()
+    public TestCommand() : base()
     {
         //AddCommand(new StringCommand("n", "name", x => Name = x));
         //AddCommand(new StringCommand("t", "token", x => Token = x));
@@ -12,32 +12,18 @@ public class TestArgument : ArgumentData
         //AddCommand(new IntCommand("sd", "seach-delay", x => SearchDelay = x));
     }
 
-    [Argument('n', "name")]
+    [StringArgument('n', "name")]
     public string Name { get; set; } = string.Empty;
 
-    [Argument('t', "token")]
+    [StringArgument('t', "token")]
     public string Token { get; set; } = string.Empty;
 
-    [Argument('e', "encrypt")]
+    [BooleanArgument('e', "encrypt")]
     public bool UseEncryption { get; set; }
 
-    [Argument('a', "auto-add")]
+    [BooleanArgument('a', "auto-add")]
     public bool AutomaticallyAdd { get; set; }
 
-    [Argument('d', "delay")]
+    [IntegerArgument('d', "delay")]
     public int SearchDelay { get; set; }
-}
-
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class ArgumentAttribute : Attribute
-{
-    public ArgumentAttribute(char initial, string name)
-    {
-        Initial = initial;
-        Name = name;
-    }
-
-    public char Initial { get; set; }
-
-    public string Name { get; set; }
 }

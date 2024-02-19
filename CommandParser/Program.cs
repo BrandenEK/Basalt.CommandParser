@@ -4,7 +4,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var arguments = new TestArgument();
+        var arguments = new TestCommand();
         arguments.Evaluate(args);
 
         Console.WriteLine();
