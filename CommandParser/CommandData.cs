@@ -10,7 +10,7 @@ public abstract class CommandData
     {
         _commands = GetType().GetProperties()
             .Where(p => p.IsDefined(typeof(ArgumentAttribute), false))
-            .ToDictionary(p => p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0] as ArgumentAttribute, p => p);
+            .ToDictionary(p => (ArgumentAttribute)p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0], p => p);
     }
 
     public void Evaluate(string[] args)

@@ -4,14 +4,14 @@ namespace CommandParser;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public abstract class ArgumentAttribute : Attribute
 {
+    private readonly string _initial;
+    private readonly string _name;
+
     public ArgumentAttribute(char initial, string name)
     {
         _initial = '-' + initial.ToString();
         _name = '-' + name;
     }
-
-    private readonly string _initial;
-    private readonly string _name;
 
     public abstract object Process(string curr, string? next);
 
