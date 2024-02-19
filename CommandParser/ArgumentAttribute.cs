@@ -42,7 +42,13 @@ public class BooleanArgumentAttribute : ArgumentAttribute
 
     public override object Process(string curr, string? next)
     {
-        return true;
+        if (next is null)
+            return true;
+
+        if (!bool.TryParse(next, out bool value))
+            throw new CommandParserException($"Command {curr} needs to be in boolean format");
+
+        return value;
     }
 }
 
