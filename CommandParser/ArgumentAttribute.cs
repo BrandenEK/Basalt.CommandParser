@@ -4,16 +4,18 @@ namespace CommandParser;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public abstract class ArgumentAttribute : Attribute
 {
+    private readonly string _initial;
+    private readonly string _name;
+
     public ArgumentAttribute(char initial, string name)
     {
         _initial = '-' + initial.ToString();
         _name = '-' + name;
     }
 
-    private readonly string _initial;
-    private readonly string _name;
-
     public abstract object Process(string curr, string? next);
+
+    public abstract object GetDefault();
 
     public bool CanProcess(string arg)
     {
@@ -24,7 +26,12 @@ public abstract class ArgumentAttribute : Attribute
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class StringArgumentAttribute : ArgumentAttribute
 {
-    public StringArgumentAttribute(char initial, string name) : base(initial, name) { }
+    private readonly string _default;
+
+    public StringArgumentAttribute(char initial, string name, string defaultValue = "") : base(initial, name)
+    {
+        _default = defaultValue;
+    }
 
     public override object Process(string curr, string? next)
     {
@@ -33,13 +40,19 @@ public class StringArgumentAttribute : ArgumentAttribute
 
         return next;
     }
+
+    public override object GetDefault() => _default;
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class BooleanArgumentAttribute : ArgumentAttribute
 {
-    public BooleanArgumentAttribute(char initial, string name) : base(initial, name) { }
+    private readonly bool _default;
 
+    public BooleanArgumentAttribute(char initial, string name, bool defaultValue = false) : base(initial, name)
+    {
+        _default = defaultValue;
+    }
     public override object Process(string curr, string? next)
     {
         if (next is null)
@@ -50,13 +63,19 @@ public class BooleanArgumentAttribute : ArgumentAttribute
 
         return value;
     }
+
+    public override object GetDefault() => _default;
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class IntegerArgumentAttribute : ArgumentAttribute
 {
-    public IntegerArgumentAttribute(char initial, string name) : base(initial, name) { }
+    private readonly int _default;
 
+    public IntegerArgumentAttribute(char initial, string name, int defaultValue = 0) : base(initial, name)
+    {
+        _default = defaultValue;
+    }
     public override object Process(string curr, string? next)
     {
         if (next is null)
@@ -67,4 +86,6 @@ public class IntegerArgumentAttribute : ArgumentAttribute
 
         return value;
     }
+
+    public override object GetDefault() => _default;
 }
