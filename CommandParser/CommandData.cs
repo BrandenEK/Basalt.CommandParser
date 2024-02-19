@@ -1,5 +1,4 @@
-﻿
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace CommandParser;
 
@@ -18,13 +17,27 @@ public abstract class CommandData
     {
         for (int i = 0; i < args.Length; i++)
         {
-            if (ProcessArg(args[i], i < args.Length - 1 ? args[i + 1] : null))
-                i++;
+            string curr = args[i];
+
+            if (!curr.StartsWith('-'))
+                continue;
+
+            string? next = GetNextArg(args, i);
+
+            ProcessArg(curr, next);
         }
     }
 
-    // Return whether to skip an arg
-    private bool ProcessArg(string curr, string? next)
+    private string? GetNextArg(string[] args, int idx)
+    {
+        if (idx >= args.Length - 1)
+            return null;
+
+        string next = args[idx + 1];
+        return next.StartsWith('-') ? null : next;
+    }
+
+    private void ProcessArg(string curr, string? next)
     {
         Console.WriteLine(curr);
         foreach (var command in _commands)
@@ -33,7 +46,7 @@ public abstract class CommandData
                 continue;
 
             command.Value.SetValue(this, command.Key.Process(curr, next));
-            return false;
+            return;
         }
 
         throw new CommandParserException($"Invalid argument: {curr}");

@@ -13,7 +13,7 @@ public class TestCommand : CommandData
     }
 
     [StringArgument('n', "name")]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = "Default name";
 
     [StringArgument('t', "token")]
     public string Token { get; set; } = string.Empty;
