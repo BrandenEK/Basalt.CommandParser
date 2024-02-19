@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace CommandParser;
+namespace Basalt.CommandParser;
 
 public abstract class CommandData
 {
@@ -13,7 +13,7 @@ public abstract class CommandData
             .ToDictionary(p => (ArgumentAttribute)p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0], p => p);
     }
 
-    public void Evaluate(string[] args)
+    public void Process(string[] args)
     {
         for (int i = 0; i < args.Length; i++)
         {

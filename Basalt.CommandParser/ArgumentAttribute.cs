@@ -1,5 +1,5 @@
 ﻿
-namespace CommandParser;
+namespace Basalt.CommandParser;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public abstract class ArgumentAttribute : Attribute

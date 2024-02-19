@@ -1,5 +1,5 @@
 ﻿
-namespace CommandParser;
+namespace Basalt.CommandParser;
 
 public class CommandParserException : Exception
 {
