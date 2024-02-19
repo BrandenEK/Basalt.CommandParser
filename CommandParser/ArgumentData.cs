@@ -15,6 +15,28 @@ public abstract class ArgumentData
 
     public void Evaluate(string[] args)
     {
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (ProcessArg(args[i], i < args.Length - 1 ? args[i + 1] : null))
+                i++;
+        }
+    }
+
+    // Return whether to skip an arg
+    private bool ProcessArg(string curr, string? next)
+    {
+        Console.WriteLine(curr);
+        foreach (var command in _validArgs)
+        {
+            int result = command.Accept(curr, next);
+
+            if (result == -1)
+                continue;
+
+            return result == 1;
+        }
+
+        throw new CommandParserException($"Invalid argument: {curr}");
     }
 
     private readonly List<Argument> _validArgs = new();
@@ -36,8 +58,14 @@ public class Argument
         _result = result;
     }
 
-    public bool Accept(string arg)
+    // Return whether to skip an arg
+    // 0 = valid normal, -1 = na, 1 = skip extra
+    public int Accept(string curr, string? next)
     {
-        return false;
+        if (curr != "-" + _cmdInitial && curr != "-" + _cmdFull)
+            return -1;
+
+        _result(curr);
+        return 0;
     }
 }

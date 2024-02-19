@@ -7,8 +7,8 @@ public class TestArgument : ArgumentData
     {
         AddValidArgument(new Argument("n", "name", x => Name = x));
         AddValidArgument(new Argument("t", "token", x => Token = x));
-        AddValidArgument(new Argument("e", "encrypt", x => UseEncryption = bool.Parse(x)));
-        AddValidArgument(new Argument("aa", "auto-add", x => AutomaticallyAdd = bool.Parse(x)));
+        AddValidArgument(new Argument("e", "encrypt", x => UseEncryption = true));
+        AddValidArgument(new Argument("aa", "auto-add", x => AutomaticallyAdd = true));
         AddValidArgument(new Argument("sd", "seach-delay", x => SearchDelay = int.Parse(x)));
     }
 
