@@ -2,10 +2,16 @@
 
 namespace Basalt.CommandParser;
 
+/// <summary>
+/// An object that will take in arguments and process them
+/// </summary>
 public abstract class CommandData
 {
     private readonly Dictionary<ArgumentAttribute, PropertyInfo> _commands = new();
 
+    /// <summary>
+    /// Creates a new command data and locates all argument attributes
+    /// </summary>
     public CommandData()
     {
         _commands = GetType().GetProperties()
@@ -13,6 +19,9 @@ public abstract class CommandData
             .ToDictionary(p => (ArgumentAttribute)p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0], p => p);
     }
 
+    /// <summary>
+    /// Parses the arguments and assigns the values
+    /// </summary>
     public void Process(string[] args)
     {
         for (int i = 0; i < args.Length; i++)
