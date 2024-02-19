@@ -1,10 +1,14 @@
 ﻿
+using System.Reflection;
+
 namespace CommandParser;
 
 public abstract class ArgumentData
 {
     public void Evaluate(string[] args)
     {
+        DoReflection();
+
         for (int i = 0; i < args.Length; i++)
         {
             if (ProcessArg(args[i], i < args.Length - 1 ? args[i + 1] : null))
@@ -32,6 +36,18 @@ public abstract class ArgumentData
     private readonly List<Command> _commands = new();
 
     public void AddCommand(Command cmd) => _commands.Add(cmd);
+
+    private void DoReflection()
+    {
+        Type type = GetType();
+
+        var properties = type.GetProperties().Where(prop => prop.IsDefined(typeof(ArgumentAttribute), false));
+        foreach (var property in properties)
+        {
+            var attribute = property.GetCustomAttributes(typeof(ArgumentAttribute), false)[0] as ArgumentAttribute;
+            AddCommand(new BoolCommand(attribute.Initial.ToString(), attribute.Name, this, property));
+        }
+    }
 }
 
 public abstract class Command
@@ -39,10 +55,15 @@ public abstract class Command
     private readonly string _initial;
     private readonly string _name;
 
-    public Command(string initial, string name)
+    private readonly object _object;
+    private readonly PropertyInfo _property;
+
+    public Command(string initial, string name, object obj, PropertyInfo property)
     {
         _initial = '-' + initial;
         _name = '-' + name;
+        _object = obj;
+        _property = property;
     }
 
     internal int Accept(string curr, string? next)
@@ -50,58 +71,42 @@ public abstract class Command
         if (curr != _initial && curr != _name)
             return -1;
 
-        return Process(curr, next) ? 1 : 0;
+        _property.SetValue(_object, Process(curr, next));
+        return 0;
     }
 
     // return whether to skip ( Change this to recognize if the next arg doesnt have a dash use that ) !!!
-    protected abstract bool Process(string curr, string? next);
+    protected abstract object Process(string curr, string? next);
 }
 
 public class StringCommand : Command
 {
-    private readonly Action<string> _result;
+    public StringCommand(string initial, string name, object obj, PropertyInfo property) : base(initial, name, obj, property) { }
 
-    public StringCommand(string initial, string name, Action<string> result) : base(initial, name)
-    {
-        _result = result;
-    }
-
-    protected override bool Process(string curr, string? next)
+    protected override object Process(string curr, string? next)
     {
         if (next is null)
             throw new CommandParserException($"Command {curr} needs a following argument");
 
-        _result(next);
-        return true;
+        return next;
     }
 }
 
 public class BoolCommand : Command
 {
-    private readonly Action<bool> _result;
+    public BoolCommand(string initial, string name, object obj, PropertyInfo property) : base(initial, name, obj, property) { }
 
-    public BoolCommand(string initial, string name, Action<bool> result) : base(initial, name)
+    protected override object Process(string curr, string? next)
     {
-        _result = result;
-    }
-
-    protected override bool Process(string curr, string? next)
-    {
-        _result(true);
-        return false;
+        return true;
     }
 }
 
 public class IntCommand : Command
 {
-    private readonly Action<int> _result;
+    public IntCommand(string initial, string name, object obj, PropertyInfo property) : base(initial, name, obj, property) { }
 
-    public IntCommand(string initial, string name, Action<int> result) : base(initial, name)
-    {
-        _result = result;
-    }
-
-    protected override bool Process(string curr, string? next)
+    protected override object Process(string curr, string? next)
     {
         if (next is null)
             throw new CommandParserException($"Command {curr} needs a following argument");
@@ -109,7 +114,6 @@ public class IntCommand : Command
         if (!int.TryParse(next, out int value))
             throw new CommandParserException($"Command {curr} needs to be in integer format");
 
-        _result(value);
-        return true;
+        return value;
     }
 }
