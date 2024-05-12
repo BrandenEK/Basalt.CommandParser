@@ -8,7 +8,7 @@
     <Title>Command Parser</Title>
     <Authors>Damocles</Authors>
     <Description>Command line argument parser</Description>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
 
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
