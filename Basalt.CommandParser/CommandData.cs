@@ -48,7 +48,6 @@ public abstract class CommandData
 
     private void ProcessArg(string curr, string? next)
     {
-        Console.WriteLine(curr);
         foreach (var command in _commands)
         {
             if (!command.Key.CanProcess(curr))
