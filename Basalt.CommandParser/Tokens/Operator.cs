@@ -14,7 +14,7 @@ public class Operator : Token
     public Operator(NewArgumentAttribute attribute, PropertyInfo property)
     {
         if (attribute.DataType != property.PropertyType)
-            throw new ImproperSetupException(property.Name, "property type");
+            throw new ArgumentLoadingException("property with different type than its attribute", property.Name);
 
         Attribute = attribute;
         Property = property;

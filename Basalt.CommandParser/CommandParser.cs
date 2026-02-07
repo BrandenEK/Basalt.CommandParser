@@ -17,12 +17,9 @@ public static class CommandParser
 
         try
         {
-            operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-                .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
-                .ToArray();
+            operators = LoadOperators(command);
         }
-        catch (ImproperSetupException ex)
+        catch (ArgumentLoadingException ex)
         {
             throw new ArgumentException(ex.Message);
         }
@@ -58,6 +55,25 @@ public static class CommandParser
         }
 
         return command;
+    }
+
+    private static IEnumerable<Operator> LoadOperators(BaseArguments command)
+    {
+        Operator[] operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
+            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
+            .ToArray();
+
+        if (operators.Length == 1)
+            throw new ArgumentLoadingException("no arguments for type", command.GetType().Name);
+
+        if (operators.Length != operators.DistinctBy(o => o.Attribute.LongName).Count())
+            throw new ArgumentLoadingException("arguments with identical long names for type", command.GetType().Name);
+
+        if (operators.Length != operators.DistinctBy(o => o.Attribute.ShortName).Count())
+            throw new ArgumentLoadingException("arguments with identical short names for type", command.GetType().Name);
+
+        return operators;
     }
 
     private static List<Token> ParseTokens(string[] args, IEnumerable<Operator> operators)

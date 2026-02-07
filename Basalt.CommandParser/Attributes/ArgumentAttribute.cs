@@ -26,7 +26,7 @@ public abstract class NewArgumentAttribute : Attribute
             && longName.Length > 2;
 
         if (!validLongName)
-            throw new ImproperSetupException(longName, nameof(longName));
+            throw new ArgumentLoadingException("invalid longName", longName);
 
         bool validShortName = !string.IsNullOrEmpty(shortName)
             && shortName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
@@ -34,12 +34,12 @@ public abstract class NewArgumentAttribute : Attribute
             && shortName.Length <= 2;
 
         if (!validShortName)
-            throw new ImproperSetupException(shortName, nameof(shortName));
+            throw new ArgumentLoadingException("invalid shortName", shortName);
 
         bool validDescription = !string.IsNullOrEmpty(description);
 
         if (!validDescription)
-            throw new ImproperSetupException(description, nameof(description));
+            throw new ArgumentLoadingException("invalid description", description);
 
         LongName = longName;
         ShortName = shortName;

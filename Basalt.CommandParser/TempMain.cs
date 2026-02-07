@@ -8,6 +8,9 @@ public class TempMain
     static void Main(string[] args)
     {
         Console.ForegroundColor = ConsoleColor.Gray;
+
+        //var invalidArgs = CommandParser.Parse<InvalidArguments>(args);
+
         var testArgs = CommandParser.Parse<TestArguments>(args);
         //Console.ReadKey(true);
 
@@ -18,6 +21,7 @@ public class TempMain
         Console.WriteLine($"UpdateTime: {testArgs.UpdateTime}");
         Console.WriteLine($"OutputPath: {testArgs.OutputPath}");
         Console.WriteLine($"Configuration: {testArgs.Configuration}");
+        //Console.WriteLine($"DesktopSetup: {testArgs.DesktopSetup}");
     }
 }
 
@@ -40,4 +44,12 @@ public class TestArguments : BaseArguments
 
     [NewStringArgument("configuration", "c", "The config type that should be used")]
     public string Configuration { get; set; }
+
+    //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
+    //public bool DesktopSetup { get; set; }
+}
+
+public class InvalidArguments : BaseArguments
+{
+    public int Value { get; set; }
 }
