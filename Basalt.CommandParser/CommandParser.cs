@@ -22,7 +22,7 @@ public static class CommandParser
         try
         {
             List<Token> tokens = ParseTokens(args, operators);
-            EvaluateTokens(tokens);
+            EvaluateTokens(command, tokens);
         }
         catch (UnknownArgumentException ex)
         {
@@ -70,7 +70,7 @@ public static class CommandParser
         return tokens;
     }
 
-    private static void EvaluateTokens(List<Token> tokens)
+    private static void EvaluateTokens(BaseArguments command, List<Token> tokens)
     {
         // Temp display
         Console.WriteLine();
@@ -83,9 +83,9 @@ public static class CommandParser
             Console.WriteLine($"Processing op {op.Attribute.LongName}");
             string? param = i < tokens.Count - 1 && tokens[i + 1] is Variable var ? var.Content : null;
             object result = op.Attribute.Process(param);
+            op.Property.SetValue(command, result);
 
             Console.WriteLine($"Result is {result.ToString()}");
-            // Write result into the property
         }
     }
 
