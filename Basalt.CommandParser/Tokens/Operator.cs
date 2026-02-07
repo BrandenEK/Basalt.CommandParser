@@ -1,11 +1,10 @@
 ﻿using Basalt.CommandParser.Attributes;
 using Basalt.CommandParser.Exceptions;
-using System;
 using System.Reflection;
 
 namespace Basalt.CommandParser.Tokens;
 
-public class Operator : Token
+internal class Operator : Token
 {
     public ArgumentAttribute Attribute { get; }
 
@@ -18,7 +17,5 @@ public class Operator : Token
 
         Attribute = attribute;
         Property = property;
-
-        Console.WriteLine($"Loaded argument '{attribute.LongName}'");
     }
 }

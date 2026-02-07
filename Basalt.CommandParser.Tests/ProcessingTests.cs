@@ -4,7 +4,7 @@ namespace Basalt.CommandParser.Tests;
 
 public class ProcessingTests
 {
-    protected void ValidateSuccess(string[] args, Func<TestArguments, bool> isValid)
+    private protected void ValidateSuccess(string[] args, Func<TestArguments, bool> isValid)
     {
         var data = new TestArguments();
         data.Process(args);
@@ -12,7 +12,7 @@ public class ProcessingTests
         Assert.IsTrue(isValid(data));
     }
 
-    protected void ValidateFailure<TException>(string[] args) where TException : ArgumentProcessingException
+    private protected void ValidateFailure<TException>(string[] args) where TException : ArgumentProcessingException
     {
         var data = new TestArguments();
 

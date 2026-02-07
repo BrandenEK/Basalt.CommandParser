@@ -11,7 +11,7 @@ public class IntegerArgumentAttribute : ArgumentAttribute
 {
     public IntegerArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(int)) { }
 
-    public override object Process(string? parameter)
+    internal override object Process(string? parameter)
     {
         if (parameter is null)
             throw new MissingParameterException(LongName);

@@ -11,7 +11,7 @@ public class StringArgumentAttribute : ArgumentAttribute
 {
     public StringArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(string)) { }
 
-    public override object Process(string? parameter)
+    internal override object Process(string? parameter)
     {
         if (parameter is null)
             throw new MissingParameterException(LongName);

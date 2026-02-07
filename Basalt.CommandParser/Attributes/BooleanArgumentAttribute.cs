@@ -11,7 +11,7 @@ public class BooleanArgumentAttribute : ArgumentAttribute
 {
     public BooleanArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(bool)) { }
 
-    public override object Process(string? parameter)
+    internal override object Process(string? parameter)
     {
         if (parameter is null)
             return true;

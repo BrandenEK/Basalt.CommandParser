@@ -2,7 +2,7 @@
 
 namespace Basalt.CommandParser.Exceptions;
 
-public class ArgumentLoadingException : Exception
+internal class ArgumentLoadingException : Exception
 {
     public ArgumentLoadingException(string error, string name) : base($"found {error} ({name})") { }
 }

@@ -16,7 +16,7 @@ public abstract class ArgumentAttribute : Attribute
 
     public string Description { get; }
 
-    public Type DataType { get; }
+    internal Type DataType { get; }
 
     public ArgumentAttribute(string longName, string shortName, string description, Type dataType)
     {
@@ -49,5 +49,5 @@ public abstract class ArgumentAttribute : Attribute
         DataType = dataType;
     }
 
-    public abstract object Process(string? parameter);
+    internal abstract object Process(string? parameter);
 }

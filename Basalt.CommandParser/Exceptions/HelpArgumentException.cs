@@ -1,7 +1,7 @@
 ﻿
 namespace Basalt.CommandParser.Exceptions;
 
-public class HelpArgumentException : ArgumentProcessingException
+internal class HelpArgumentException : ArgumentProcessingException
 {
     public HelpArgumentException() : base(null, true) { }
 }

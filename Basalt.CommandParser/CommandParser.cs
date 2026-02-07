@@ -7,8 +7,14 @@ using System.Text;
 
 namespace Basalt.CommandParser;
 
+/// <summary>
+/// Handles parsing command line arguments
+/// </summary>
 public static class CommandParser
 {
+    /// <summary>
+    /// Parses the arguments and returns the updated data
+    /// </summary>
     public static TArgs ProcessArguments<TArgs>(string[] args) where TArgs : ProgramArguments, new()
     {
         var data = new TArgs();
@@ -39,6 +45,9 @@ public static class CommandParser
         return data;
     }
 
+    /// <summary>
+    /// Displays the help information for a set of arguments
+    /// </summary>
     private static void HelpArguments(ProgramArguments data)
     {
         string assembly = data.GetType().Assembly.GetName().Name ?? "unndefined";

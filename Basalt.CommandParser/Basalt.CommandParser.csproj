@@ -10,12 +10,13 @@
     <Description>Command line argument parser</Description>
     <Version>1.0.1</Version>
 
-    <!-- Temp -->
-    <OutputType>Exe</OutputType>
-
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/BrandenEK/Basalt.CommandParser</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Basalt.CommandParser.Tests" />
+  </ItemGroup>
 
 </Project>
