@@ -18,6 +18,8 @@ public abstract class NewArgumentAttribute : Attribute
 
     public Type DataType { get; }
 
+    public int DisplayLength => ShortName.Length + LongName.Length + 5;
+
     public NewArgumentAttribute(string longName, string shortName, string description, Type dataType)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)

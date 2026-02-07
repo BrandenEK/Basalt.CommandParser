@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Basalt.CommandParser;
 
@@ -24,7 +25,6 @@ public static class CommandParser
             throw new ArgumentException(ex.Message);
         }
 
-        // TODO: improve help method selection
         try
         {
             List<Token> tokens = ParseTokens(args, operators);
@@ -40,29 +40,6 @@ public static class CommandParser
 
             Environment.Exit(0);
         }
-        //catch (UnknownArgumentException ex)
-        //{
-        //    Console.WriteLine($"error: unknown argument '{ex.Name}'");
-        //    string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-        //    DisplayHelp(assembly, operators.Select(x => x.Attribute));
-        //    Environment.Exit(0);
-        //}
-        //catch (HelpArgumentException ex)
-        //{
-        //    string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-        //    DisplayHelp(assembly, operators.Select(x => x.Attribute));
-        //    Environment.Exit(0);
-        //}
-        //catch (MissingParameterException ex)
-        //{
-        //    Console.WriteLine($"error: a value is required for {ex.Parameter}");
-        //    Environment.Exit(0);
-        //}
-        //catch (InvalidParameterException ex)
-        //{
-        //    Console.WriteLine($"error: {ex.Parameter} must be {ex.Condition}");
-        //    Environment.Exit(0);
-        //}
 
         return command;
     }
@@ -151,14 +128,19 @@ public static class CommandParser
         Console.WriteLine();
         Console.WriteLine("Arguments:");
 
-        // TODO: clean this up, its pretty nasty
-        var lines = attributes.ToDictionary(x => x, x => $"  {("-" + x.ShortName).PadLeft(3, ' ')}|--{x.LongName}");
-        int maxLength = lines.Max(x => x.Value.Length);
+        int maxLength = attributes.Max(x => x.LongName.Length);
 
-        foreach (var line in lines)
+        foreach (var attribute in attributes)
         {
-            Console.WriteLine($"{line.Value.PadRight(maxLength + 2, ' ')} {line.Key.Description}");
+            var sb = new StringBuilder();
+
+            sb.Append("  ");
+            sb.Append($"-{attribute.ShortName}".PadLeft(3, ' '));
+            sb.Append("|--");
+            sb.Append(attribute.LongName.PadRight(maxLength + 2));
+            sb.Append(attribute.Description);
+
+            Console.WriteLine(sb);
         }
-        Console.WriteLine();
     }
 }
