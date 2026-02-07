@@ -14,7 +14,7 @@ public class ProgramArguments
     [HelpArgument]
     protected bool ShowHelp { get; }
 
-    public ProgramArguments Process(string[] args)
+    internal void Process(string[] args)
     {
         IEnumerable<Operator> operators;
 
@@ -28,7 +28,7 @@ public class ProgramArguments
 
             Console.WriteLine();
             Environment.Exit(1);
-            return this;
+            return;
         }
 
         try
@@ -46,10 +46,8 @@ public class ProgramArguments
 
             Console.WriteLine();
             Environment.Exit(0);
-            return this;
+            return;
         }
-
-        return this;
     }
 
     private IEnumerable<Operator> LoadOperators()

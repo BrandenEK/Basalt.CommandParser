@@ -11,10 +11,10 @@ public class TempMain
 
         //var invalidArgs = CommandParser.Parse<InvalidArguments>(args);
 
-        var testArgs = CommandParser.Parse<TestArguments>(args);
+        //var testArgs = CommandParser.Parse<TestArguments>(args);
         //Console.ReadKey(true);
 
-        var newtestargs = new NewTestArguments().Process(args);
+        var testArgs = CommandParser.ProcessArguments<NewTestArguments>(args);
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"DebugMode: {testArgs.DebugMode}");
