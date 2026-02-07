@@ -43,8 +43,8 @@ public static class CommandParser
     {
         string assembly = data.GetType().Assembly.GetName().Name ?? "unndefined";
         var attributes = data.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-            .Select(p => (NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0])
+            .Where(p => p.IsDefined(typeof(ArgumentAttribute), false))
+            .Select(p => (ArgumentAttribute)p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0])
             .ToArray();
 
         Console.WriteLine($"Usage: {assembly} [arguments]");

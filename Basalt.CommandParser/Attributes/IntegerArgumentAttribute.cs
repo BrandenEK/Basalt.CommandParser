@@ -7,9 +7,9 @@ namespace Basalt.CommandParser.Attributes;
 /// A command line argument that accepts an integer
 /// </summary>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class NewIntegerArgumentAttribute : NewArgumentAttribute
+public class IntegerArgumentAttribute : ArgumentAttribute
 {
-    public NewIntegerArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(int)) { }
+    public IntegerArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(int)) { }
 
     public override object Process(string? parameter)
     {

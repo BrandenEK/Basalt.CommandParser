@@ -8,7 +8,7 @@ namespace Basalt.CommandParser.Attributes;
 /// A command line argument
 /// </summary>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public abstract class NewArgumentAttribute : Attribute
+public abstract class ArgumentAttribute : Attribute
 {
     public string LongName { get; }
 
@@ -18,7 +18,7 @@ public abstract class NewArgumentAttribute : Attribute
 
     public Type DataType { get; }
 
-    public NewArgumentAttribute(string longName, string shortName, string description, Type dataType)
+    public ArgumentAttribute(string longName, string shortName, string description, Type dataType)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)
             && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')

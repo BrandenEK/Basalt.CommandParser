@@ -7,7 +7,7 @@ namespace Basalt.CommandParser.Attributes;
 /// A command line argument that accepts a float
 /// </summary>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class FloatArgumentAttribute : NewArgumentAttribute
+public class FloatArgumentAttribute : ArgumentAttribute
 {
     public FloatArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(float)) { }
 
