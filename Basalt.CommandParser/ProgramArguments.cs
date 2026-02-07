@@ -45,7 +45,6 @@ public class ProgramArguments
 
         for (int i = 0; i < args.Length; i++)
         {
-            Console.WriteLine($"{i}: \"{args[i]}\"");
             string curr = args[i];
 
             if (curr.Length > 0 && curr.All(c => c == '-'))
@@ -60,20 +59,14 @@ public class ProgramArguments
 
     private void EvaluateTokens(List<Token> tokens)
     {
-        // Temp display
-        Console.WriteLine();
-
         for (int i = 0; i < tokens.Count; i++)
         {
             if (tokens[i] is not Operator op)
                 continue;
 
-            Console.WriteLine($"Processing op {op.Attribute.LongName}");
             string? param = i < tokens.Count - 1 && tokens[i + 1] is Variable var ? var.Content : null;
             object result = op.Attribute.Process(param);
             op.Property.SetValue(this, result);
-
-            Console.WriteLine($"Result is {result.ToString()}");
         }
     }
 
