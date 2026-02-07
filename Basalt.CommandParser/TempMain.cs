@@ -14,15 +14,15 @@ public class TempMain
 
 public class TestArguments : BaseArguments
 {
-    [NewBooleanArgument("debug", "d")]
+    [NewBooleanArgument("debug", "d", "Run in debug mode")]
     public bool DebugMode { get; set; }
 
-    [NewBooleanArgument("trimode", "tm")]
+    [NewBooleanArgument("trimode", "tm", "Some sort of secret mode")]
     public bool TriforceMode { get; set; }
 
-    [NewStringArgument("output", "o")]
+    [NewStringArgument("output", "o", "The file path to write the build file to")]
     public bool OutputPath { get; set; }
 
-    [NewStringArgument("configuration", "c")]
+    [NewStringArgument("configuration", "c", "The config type that should be used")]
     public string Configuration { get; set; }
 }

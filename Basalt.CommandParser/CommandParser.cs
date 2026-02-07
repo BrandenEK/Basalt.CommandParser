@@ -39,16 +39,35 @@ public static class CommandParser
             }
         }
 
+        Console.WriteLine();
         foreach (var token in tokens)
         {
-            Console.WriteLine(token.GetType() + ": " + token.Text);
+            Console.WriteLine(token.GetType().Name + ": " + token.Text);
+        }
+
+        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
+        {
+            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+            DisplayHelp(assembly, tempAttributes.Select(x => x.Key));
+            Environment.Exit(0);
         }
 
         return command;
     }
 
-    private static void DisplayHelp(IEnumerable<NewArgumentAttribute> attributes)
+    private static void DisplayHelp(string assembly, IEnumerable<NewArgumentAttribute> attributes)
     {
+        Console.WriteLine($"Usage: {assembly} [arguments]");
+        Console.WriteLine();
+        Console.WriteLine("Arguments:");
 
+        // TODO: clean this up, its pretty nasty
+        var lines = attributes.ToDictionary(x => x, x => $"  {("-" + x.ShortName).PadLeft(3, ' ')}|--{x.LongName}");
+        int maxLength = lines.Max(x => x.Value.Length);
+
+        foreach (var line in lines)
+        {
+            Console.WriteLine($"{line.Value.PadRight(maxLength + 2, ' ')} {line.Key.Description}");
+        }
     }
 }
