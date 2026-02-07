@@ -8,7 +8,7 @@ public class ProcessingBoolTests : ProcessingTests
     [TestMethod]
     public void Test_NoArgs()
     {
-        ValidateSuccess(new string[] { }, data => true);
+        ValidateSuccess(new string[] { }, data => true); // Move this to diff class ??
     }
 
     [TestMethod]
