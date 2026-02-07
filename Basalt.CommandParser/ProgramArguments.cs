@@ -81,7 +81,7 @@ public class ProgramArguments
     {
         if (argument.StartsWith("--"))
         {
-            string name = argument[2..];
+            string name = argument[2..].ToLower();
             Operator? op = operators.FirstOrDefault(o => o.Attribute.LongName == name);
 
             return op is null ? throw new UnknownArgumentException(name) : op;
@@ -89,7 +89,7 @@ public class ProgramArguments
 
         if (argument.StartsWith("-"))
         {
-            string name = argument[1..];
+            string name = argument[1..].ToLower();
             Operator? op = operators.FirstOrDefault(o => o.Attribute.ShortName == name);
 
             return op is null ? throw new UnknownArgumentException(name) : op;
