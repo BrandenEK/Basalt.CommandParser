@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Basalt.CommandParser.Attributes;
 
 /// <summary>
