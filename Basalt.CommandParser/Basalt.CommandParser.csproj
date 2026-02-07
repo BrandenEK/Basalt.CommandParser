@@ -2,13 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
     
     <Title>Command Parser</Title>
     <Authors>Damocles</Authors>
     <Description>Command line argument parser</Description>
     <Version>1.0.1</Version>
+
+    <!-- Temp -->
+    <OutputType>Exe</OutputType>
 
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
