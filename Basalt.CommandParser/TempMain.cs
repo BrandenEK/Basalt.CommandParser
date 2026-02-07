@@ -39,5 +39,5 @@ public class TestArguments : BaseArguments
     public string OutputPath { get; set; }
 
     [NewStringArgument("configuration", "c", "configuration", "The config type that should be used")]
-    public int Configuration { get; set; }
+    public string Configuration { get; set; }
 }

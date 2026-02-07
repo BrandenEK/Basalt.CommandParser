@@ -13,16 +13,12 @@ public class Operator : Token
 
     public Operator(NewArgumentAttribute attribute, PropertyInfo property)
     {
-        Console.WriteLine(attribute.DataType.Name.ToString());
-        Console.WriteLine(property.PropertyType.Name.ToString());
-
-        Type attributeType = attribute.DataType;
-        Type propertyType = property.PropertyType;
-
-        if (attributeType != propertyType)
+        if (attribute.DataType != property.PropertyType)
             throw new ImproperSetupException(property.Name, "property type");
 
         Attribute = attribute;
         Property = property;
+
+        Console.WriteLine($"Loaded argument '{attribute.LongName}'");
     }
 }
