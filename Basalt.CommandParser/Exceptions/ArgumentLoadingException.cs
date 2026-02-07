@@ -4,5 +4,5 @@ namespace Basalt.CommandParser.Exceptions;
 
 public class ArgumentLoadingException : Exception
 {
-    public ArgumentLoadingException(string error, string name) : base($"Found {error} ({name})") { }
+    public ArgumentLoadingException(string error, string name) : base($"found {error} ({name})") { }
 }

@@ -22,7 +22,11 @@ public static class CommandParser
         }
         catch (ArgumentLoadingException ex)
         {
-            throw new ArgumentException(ex.Message);
+            Console.WriteLine($"fatal: {ex.Message}");
+
+            Console.WriteLine();
+            Environment.Exit(1);
+            return null;
         }
 
         try
@@ -33,12 +37,14 @@ public static class CommandParser
         catch (ArgumentProcessingException ex)
         {
             if (ex.DisplayMessage is not null)
-                Console.WriteLine(ex.DisplayMessage);
+                Console.WriteLine($"error: {ex.DisplayMessage}");
 
             if (ex.ShowHelp)
                 DisplayHelp(command.GetType().Assembly.GetName().Name ?? "unndefined", operators.Select(x => x.Attribute));
 
+            Console.WriteLine();
             Environment.Exit(0);
+            return null;
         }
 
         return command;
