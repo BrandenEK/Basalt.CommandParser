@@ -1,5 +1,4 @@
-﻿using Basalt.CommandParser.Attributes;
-using Basalt.CommandParser.Exceptions;
+﻿using Basalt.CommandParser.Exceptions;
 
 namespace Basalt.CommandParser.Tests;
 
@@ -18,9 +17,22 @@ public class LoadingTests
     {
         ValidateFailure(new NoArguments(), _args);
     }
-}
 
-public class NoArguments : ProgramArguments
-{
+    [TestMethod]
+    public void Test_HelpLongArgs()
+    {
+        ValidateFailure(new HelpLongArguments(), _args);
+    }
 
+    [TestMethod]
+    public void Test_HelpShortArgs()
+    {
+        ValidateFailure(new HelpShortArguments(), _args);
+    }
+
+    [TestMethod]
+    public void Test_DuplicateArgs()
+    {
+        ValidateFailure(new DuplicateArguments(), _args);
+    }
 }
