@@ -16,10 +16,20 @@ public abstract class NewArgumentAttribute : Attribute
 
     public NewArgumentAttribute(string longName, string shortName)
     {
-        if (string.IsNullOrEmpty(longName) || longName.Any(c => !char.IsLetter(c) && c != '-') || longName.Length < 3)
+        bool validLongName = !string.IsNullOrEmpty(longName)
+            && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
+            && longName.Any(c => c != '-')
+            && longName.Length > 2;
+
+        if (!validLongName)
             throw new ArgumentException($"Invalid long name ({longName})", nameof(longName));
 
-        if (string.IsNullOrEmpty(shortName) || shortName.Any(c => !char.IsLetter(c) && c != '-') || shortName.All(c => c == '-') || shortName.Length > 2)
+        bool validShortName = !string.IsNullOrEmpty(shortName)
+            && shortName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
+            && shortName.Any(c => c != '-')
+            && shortName.Length <= 2;
+
+        if (!validShortName)
             throw new ArgumentException($"Invalid short name ({shortName})", nameof(shortName));
 
         _long = longName;

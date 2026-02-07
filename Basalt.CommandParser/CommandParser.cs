@@ -20,18 +20,21 @@ public static class CommandParser
             Console.WriteLine($"{i}: \"{args[i]}\"");
             string curr = args[i];
 
+            if (curr.Length > 0 && curr.All(c => c == '-'))
+                continue;
+
             if (curr.StartsWith("--"))
             {
-                if (curr.Length == 2)
-                    continue;
+                //if (curr.Length == 2)
+                //    continue;
 
                 // Make sure long name exists as an attribute
                 tokens.Add(new Operator(curr[2..]));
             }
             else if (curr.StartsWith("-"))
             {
-                if (curr.Length == 1)
-                    continue;
+                //if (curr.Length == 1)
+                //    continue;
 
                 // Make sure short name exists as an attribute
                 tokens.Add(new Operator(curr[1..]));
