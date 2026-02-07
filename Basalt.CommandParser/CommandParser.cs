@@ -48,7 +48,7 @@ public static class CommandParser
         }
         catch (MissingParameterException ex)
         {
-            Console.WriteLine($"error: {ex.Parameter} is required");
+            Console.WriteLine($"error: a value is required for {ex.Parameter}");
             Environment.Exit(0);
         }
         catch (InvalidParameterException ex)

@@ -23,21 +23,21 @@ public class TempMain
 
 public class TestArguments : BaseArguments
 {
-    [NewBooleanArgument("debug", "d", "debug mode", "Run in debug mode")]
+    [NewBooleanArgument("debug", "d", "Run in debug mode")]
     public bool DebugMode { get; set; }
 
-    [NewIntegerArgument("max-players", "mp", "max players", "The maximum number of players on the server")]
+    [NewIntegerArgument("max-players", "mp", "The maximum number of players on the server")]
     public int MaxPlayers { get; set; }
 
-    [NewBooleanArgument("trimode", "tm", "triforce mode", "Some sort of secret mode")]
+    [NewBooleanArgument("trimode", "tm", "Some sort of secret mode")]
     public bool TriforceMode { get; set; }
 
-    [FloatArgument("update-ms", "u", "update time ms", "The milliseconds in between data reads")]
+    [FloatArgument("update-ms", "u", "The milliseconds in between data reads")]
     public float UpdateTime { get; set; }
 
-    [NewStringArgument("output", "o", "output path", "The file path to write the build file to")]
+    [NewStringArgument("output", "o", "The file path to write the build file to")]
     public string OutputPath { get; set; }
 
-    [NewStringArgument("configuration", "c", "configuration", "The config type that should be used")]
+    [NewStringArgument("configuration", "c", "The config type that should be used")]
     public string Configuration { get; set; }
 }

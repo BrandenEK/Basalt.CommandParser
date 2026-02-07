@@ -9,7 +9,7 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class HelpArgumentAttribute : NewArgumentAttribute
 {
-    public HelpArgumentAttribute() : base("help", "h", "help", "Show help", typeof(bool)) { }
+    public HelpArgumentAttribute() : base("help", "h", "Show help", typeof(bool)) { }
 
     public override object Process(string? parameter)
     {

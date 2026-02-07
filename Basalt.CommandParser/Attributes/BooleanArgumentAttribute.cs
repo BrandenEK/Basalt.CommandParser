@@ -9,7 +9,7 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class NewBooleanArgumentAttribute : NewArgumentAttribute
 {
-    public NewBooleanArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description, typeof(bool)) { }
+    public NewBooleanArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(bool)) { }
 
     public override object Process(string? parameter)
     {
@@ -17,7 +17,7 @@ public class NewBooleanArgumentAttribute : NewArgumentAttribute
             return true;
 
         if (!bool.TryParse(parameter, out bool value))
-            throw new InvalidParameterException(ErrorName, "true or false");
+            throw new InvalidParameterException(LongName, "true or false");
 
         return value;
     }

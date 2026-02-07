@@ -9,15 +9,15 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class NewIntegerArgumentAttribute : NewArgumentAttribute
 {
-    public NewIntegerArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description, typeof(int)) { }
+    public NewIntegerArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(int)) { }
 
     public override object Process(string? parameter)
     {
         if (parameter is null)
-            throw new MissingParameterException(ErrorName);
+            throw new MissingParameterException(LongName);
 
         if (!int.TryParse(parameter, out int value))
-            throw new InvalidParameterException(ErrorName, "an integer");
+            throw new InvalidParameterException(LongName, "an integer");
 
         return value;
     }

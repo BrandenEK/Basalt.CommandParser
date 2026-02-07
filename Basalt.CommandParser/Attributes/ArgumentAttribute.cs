@@ -14,13 +14,11 @@ public abstract class NewArgumentAttribute : Attribute
 
     public string ShortName { get; }
 
-    public string ErrorName { get; }
-
     public string Description { get; }
 
     public Type DataType { get; }
 
-    public NewArgumentAttribute(string longName, string shortName, string errorName, string description, Type dataType)
+    public NewArgumentAttribute(string longName, string shortName, string description, Type dataType)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)
             && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
@@ -38,12 +36,6 @@ public abstract class NewArgumentAttribute : Attribute
         if (!validShortName)
             throw new ImproperSetupException(shortName, nameof(shortName));
 
-        bool validErrorName = !string.IsNullOrEmpty(errorName)
-            && errorName.All(c => char.IsLetter(c) && char.IsLower(c) || c == ' ');
-
-        if (!validErrorName)
-            throw new ImproperSetupException(errorName, nameof(errorName));
-
         bool validDescription = !string.IsNullOrEmpty(description);
 
         if (!validDescription)
@@ -51,7 +43,6 @@ public abstract class NewArgumentAttribute : Attribute
 
         LongName = longName;
         ShortName = shortName;
-        ErrorName = errorName;
         Description = description;
         DataType = dataType;
     }
