@@ -16,38 +16,9 @@ public class ProgramArguments
 
     public void Process(string[] args)
     {
-        IEnumerable<Operator> operators;
-
-        try
-        {
-            operators = LoadOperators();
-        }
-        catch (ArgumentLoadingException ex)
-        {
-            Console.WriteLine($"fatal: {ex.Message}");
-
-            Console.WriteLine();
-            Environment.Exit(1);
-            return;
-        }
-
-        try
-        {
-            List<Token> tokens = ParseTokens(args, operators);
-            EvaluateTokens(tokens);
-        }
-        catch (ArgumentProcessingException ex)
-        {
-            if (ex.DisplayMessage is not null)
-                Console.WriteLine($"error: {ex.DisplayMessage}");
-
-            if (ex.ShowHelp)
-                DisplayHelp(GetType().Assembly.GetName().Name ?? "unndefined", operators.Select(x => x.Attribute));
-
-            Console.WriteLine();
-            Environment.Exit(0);
-            return;
-        }
+        IEnumerable<Operator> operators = LoadOperators();
+        List<Token> tokens = ParseTokens(args, operators);
+        EvaluateTokens(tokens);
     }
 
     private IEnumerable<Operator> LoadOperators()
