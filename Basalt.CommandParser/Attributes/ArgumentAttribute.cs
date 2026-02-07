@@ -18,8 +18,6 @@ public abstract class NewArgumentAttribute : Attribute
 
     public Type DataType { get; }
 
-    public int DisplayLength => ShortName.Length + LongName.Length + 5;
-
     public NewArgumentAttribute(string longName, string shortName, string description, Type dataType)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)
@@ -31,8 +29,7 @@ public abstract class NewArgumentAttribute : Attribute
             throw new ArgumentLoadingException("invalid longName", longName);
 
         bool validShortName = !string.IsNullOrEmpty(shortName)
-            && shortName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
-            && shortName.Any(c => c != '-')
+            && shortName.All(c => char.IsLetter(c) && char.IsLower(c))
             && shortName.Length <= 2;
 
         if (!validShortName)
