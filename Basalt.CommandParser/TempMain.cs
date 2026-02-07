@@ -9,11 +9,6 @@ public class TempMain
     {
         Console.ForegroundColor = ConsoleColor.Gray;
 
-        //var invalidArgs = CommandParser.Parse<InvalidArguments>(args);
-
-        //var testArgs = CommandParser.Parse<TestArguments>(args);
-        //Console.ReadKey(true);
-
         var testArgs = CommandParser.ProcessArguments<NewTestArguments>(args);
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -25,33 +20,6 @@ public class TempMain
         Console.WriteLine($"Configuration: {testArgs.Configuration}");
         //Console.WriteLine($"DesktopSetup: {testArgs.DesktopSetup}");
     }
-}
-
-public class TestArguments : BaseArguments
-{
-    [NewBooleanArgument("debug", "d", "Run in debug mode")]
-    public bool DebugMode { get; set; }
-
-    [NewIntegerArgument("max-players", "mp", "The maximum number of players on the server")]
-    public int MaxPlayers { get; set; }
-
-    [NewBooleanArgument("trimode", "tm", "Some sort of secret mode")]
-    public bool TriforceMode { get; set; }
-
-    [FloatArgument("update-ms", "u", "The milliseconds in between data reads")]
-    public float UpdateTime { get; set; }
-
-    [NewStringArgument("output", "o", "The file path to write the build file to")]
-    public string OutputPath { get; set; }
-
-    [NewStringArgument("configuration", "c", "The config type that should be used")]
-    public string Configuration { get; set; }
-
-    //[NewStringArgument("new-prop-x", "p", "A test property")]
-    //public string NewProp { get; set; }
-
-    //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
-    //public bool DesktopSetup { get; set; }
 }
 
 public class NewTestArguments : ProgramArguments
@@ -79,9 +47,4 @@ public class NewTestArguments : ProgramArguments
 
     //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
     //public bool DesktopSetup { get; set; }
-}
-
-public class InvalidArguments : BaseArguments
-{
-    public int Value { get; set; }
 }
