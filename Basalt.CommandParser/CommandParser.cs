@@ -13,11 +13,19 @@ public static class CommandParser
     public static TArgs Parse<TArgs>(string[] args) where TArgs : BaseArguments, new()
     {
         var command = new TArgs();
+        IEnumerable<Operator> operators;
 
-        var operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
-            .ToArray();
+        try
+        {
+            operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
+                .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
+                .ToArray();
+        }
+        catch (ImproperSetupException ex)
+        {
+            throw new ArgumentException(ex.Message);
+        }
 
         // TODO: improve help method selection
         try

@@ -20,7 +20,7 @@ public class Operator : Token
         Type propertyType = property.PropertyType;
 
         if (attributeType != propertyType)
-            throw new ImproperSetupException($"The argument type for {attribute.LongName} does not match its property type");
+            throw new ImproperSetupException(property.Name, "property type");
 
         Attribute = attribute;
         Property = property;
