@@ -1,10 +1,7 @@
-﻿using System;
-
+﻿
 namespace Basalt.CommandParser.Exceptions;
 
-public class InvalidParameterException(string parameter, string condition) : Exception
+public class InvalidParameterException : ArgumentProcessingException
 {
-    public string Parameter { get; } = parameter;
-
-    public string Condition { get; } = condition;
+    public InvalidParameterException(string argument, string condition) : base($"error: {argument} must be {condition}", false) { }
 }

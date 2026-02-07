@@ -1,8 +1,7 @@
-﻿using System;
-
+﻿
 namespace Basalt.CommandParser.Exceptions;
 
-public class MissingParameterException(string parameter) : Exception
+public class MissingParameterException : ArgumentProcessingException
 {
-    public string Parameter { get; } = parameter;
+    public MissingParameterException(string argument) : base($"error: a value is required for {argument}", false) { }
 }

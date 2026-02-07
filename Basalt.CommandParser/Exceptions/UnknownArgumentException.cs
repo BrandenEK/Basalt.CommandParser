@@ -1,8 +1,7 @@
-﻿using System;
-
+﻿
 namespace Basalt.CommandParser.Exceptions;
 
-public class UnknownArgumentException(string name) : Exception
+public class UnknownArgumentException : ArgumentProcessingException
 {
-    public string Name { get; } = name;
+    public UnknownArgumentException(string argument) : base($"error: unknown argument '{argument}'", true) { }
 }

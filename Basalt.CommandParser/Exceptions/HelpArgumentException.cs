@@ -1,8 +1,7 @@
-﻿using System;
-
+﻿
 namespace Basalt.CommandParser.Exceptions;
 
-public class HelpArgumentException : Exception
+public class HelpArgumentException : ArgumentProcessingException
 {
-
+    public HelpArgumentException() : base(null, true) { }
 }

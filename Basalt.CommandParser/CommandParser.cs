@@ -30,29 +30,39 @@ public static class CommandParser
             List<Token> tokens = ParseTokens(args, operators);
             EvaluateTokens(command, tokens);
         }
-        catch (UnknownArgumentException ex)
+        catch (ArgumentProcessingException ex)
         {
-            Console.WriteLine($"error: unknown argument '{ex.Name}'");
-            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-            DisplayHelp(assembly, operators.Select(x => x.Attribute));
+            if (ex.DisplayMessage is not null)
+                Console.WriteLine(ex.DisplayMessage);
+
+            if (ex.ShowHelp)
+                DisplayHelp(command.GetType().Assembly.GetName().Name ?? "unndefined", operators.Select(x => x.Attribute));
+
             Environment.Exit(0);
         }
-        catch (HelpArgumentException ex)
-        {
-            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-            DisplayHelp(assembly, operators.Select(x => x.Attribute));
-            Environment.Exit(0);
-        }
-        catch (MissingParameterException ex)
-        {
-            Console.WriteLine($"error: a value is required for {ex.Parameter}");
-            Environment.Exit(0);
-        }
-        catch (InvalidParameterException ex)
-        {
-            Console.WriteLine($"error: {ex.Parameter} must be {ex.Condition}");
-            Environment.Exit(0);
-        }
+        //catch (UnknownArgumentException ex)
+        //{
+        //    Console.WriteLine($"error: unknown argument '{ex.Name}'");
+        //    string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+        //    DisplayHelp(assembly, operators.Select(x => x.Attribute));
+        //    Environment.Exit(0);
+        //}
+        //catch (HelpArgumentException ex)
+        //{
+        //    string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+        //    DisplayHelp(assembly, operators.Select(x => x.Attribute));
+        //    Environment.Exit(0);
+        //}
+        //catch (MissingParameterException ex)
+        //{
+        //    Console.WriteLine($"error: a value is required for {ex.Parameter}");
+        //    Environment.Exit(0);
+        //}
+        //catch (InvalidParameterException ex)
+        //{
+        //    Console.WriteLine($"error: {ex.Parameter} must be {ex.Condition}");
+        //    Environment.Exit(0);
+        //}
 
         return command;
     }
