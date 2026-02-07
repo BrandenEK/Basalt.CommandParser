@@ -14,6 +14,8 @@ public class TempMain
         var testArgs = CommandParser.Parse<TestArguments>(args);
         //Console.ReadKey(true);
 
+        var newtestargs = new NewTestArguments().Process(args);
+
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"DebugMode: {testArgs.DebugMode}");
         Console.WriteLine($"MaxPlayers: {testArgs.MaxPlayers}");
@@ -26,6 +28,33 @@ public class TempMain
 }
 
 public class TestArguments : BaseArguments
+{
+    [NewBooleanArgument("debug", "d", "Run in debug mode")]
+    public bool DebugMode { get; set; }
+
+    [NewIntegerArgument("max-players", "mp", "The maximum number of players on the server")]
+    public int MaxPlayers { get; set; }
+
+    [NewBooleanArgument("trimode", "tm", "Some sort of secret mode")]
+    public bool TriforceMode { get; set; }
+
+    [FloatArgument("update-ms", "u", "The milliseconds in between data reads")]
+    public float UpdateTime { get; set; }
+
+    [NewStringArgument("output", "o", "The file path to write the build file to")]
+    public string OutputPath { get; set; }
+
+    [NewStringArgument("configuration", "c", "The config type that should be used")]
+    public string Configuration { get; set; }
+
+    //[NewStringArgument("new-prop-x", "p", "A test property")]
+    //public string NewProp { get; set; }
+
+    //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
+    //public bool DesktopSetup { get; set; }
+}
+
+public class NewTestArguments : ProgramArguments
 {
     [NewBooleanArgument("debug", "d", "Run in debug mode")]
     public bool DebugMode { get; set; }
