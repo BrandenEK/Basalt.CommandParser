@@ -1,5 +1,4 @@
-﻿
-using Basalt.CommandParser.Attributes;
+﻿using Basalt.CommandParser.Attributes;
 
 namespace Basalt.CommandParser;
 
@@ -7,8 +6,10 @@ public class TempMain
 {
     static void Main(string[] args)
     {
-        CommandParser.Parse<TestArguments>(args);
+        var testArgs = CommandParser.Parse<TestArguments>(args);
         //Console.ReadKey(true);
+
+        
     }
 }
 

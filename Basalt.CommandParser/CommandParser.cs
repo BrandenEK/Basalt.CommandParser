@@ -4,6 +4,7 @@ using Basalt.CommandParser.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Basalt.CommandParser;
 
@@ -13,7 +14,7 @@ public static class CommandParser
     {
         var command = new TArgs();
 
-        var operators = command.GetType().GetProperties()
+        var operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
             .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p));
 
@@ -61,15 +62,17 @@ public static class CommandParser
 
     private static void EvaluateTokens(List<Token> tokens)
     {
-        // TODO: or if any unknown params
-        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
-            throw new HelpArgumentException();
-
         // Temp display
         Console.WriteLine();
         foreach (var token in tokens)
         {
-            Console.WriteLine(token.GetType().Name + ": " + token.Text);
+            if (token is Operator op)
+            {
+                Console.WriteLine($"op: {op.Attribute.LongName}");
+                op.Attribute.Process(null);
+            }
+            else if (token is Variable var)
+                Console.WriteLine($"var: {var.Content}");
         }
     }
 
@@ -108,5 +111,6 @@ public static class CommandParser
         {
             Console.WriteLine($"{line.Value.PadRight(maxLength + 2, ' ')} {line.Key.Description}");
         }
+        Console.WriteLine();
     }
 }

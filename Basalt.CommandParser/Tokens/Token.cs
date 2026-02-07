@@ -1,7 +1,7 @@
 ﻿
 namespace Basalt.CommandParser.Tokens;
 
-public class Token(string text)
+public class Token
 {
-    public string Text { get; } = text;
+
 }

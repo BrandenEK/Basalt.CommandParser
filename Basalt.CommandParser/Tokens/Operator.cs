@@ -9,8 +9,7 @@ public class Operator : Token
 
     public PropertyInfo Property { get; }
 
-    // TODO: fix token requiring text
-    public Operator(NewArgumentAttribute attribute, PropertyInfo property) : base(null)
+    public Operator(NewArgumentAttribute attribute, PropertyInfo property)
     {
         Attribute = attribute;
         Property = property;
