@@ -14,7 +14,7 @@ public class ProgramArguments
     [HelpArgument]
     protected bool ShowHelp { get; }
 
-    internal void Process(string[] args)
+    public void Process(string[] args)
     {
         IEnumerable<Operator> operators;
 
