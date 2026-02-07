@@ -2,7 +2,7 @@
 
 namespace Basalt.CommandParser.Exceptions;
 
-public class ArgumentProcessingException : Exception
+internal class ArgumentProcessingException : Exception
 {
     public bool ShowHelp { get; }
 

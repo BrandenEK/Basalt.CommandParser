@@ -15,4 +15,8 @@
     <RepositoryUrl>https://github.com/BrandenEK/Basalt.CommandParser</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Basalt.CommandParser.Tests" />
+  </ItemGroup>
+
 </Project>

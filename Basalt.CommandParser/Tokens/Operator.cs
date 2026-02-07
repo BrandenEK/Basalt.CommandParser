@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Basalt.CommandParser.Tokens;
 
-public class Operator : Token
+internal class Operator : Token
 {
     public ArgumentAttribute Attribute { get; }
 
