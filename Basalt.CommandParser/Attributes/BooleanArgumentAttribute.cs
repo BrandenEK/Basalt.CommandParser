@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Basalt.CommandParser.Exceptions;
+using System;
 
 namespace Basalt.CommandParser.Attributes;
 
@@ -16,7 +17,7 @@ public class NewBooleanArgumentAttribute : NewArgumentAttribute
             return true;
 
         if (!bool.TryParse(parameter, out bool value))
-            throw new CommandParserException($"{ErrorName} must be true or false");
+            throw new InvalidParameterException(ErrorName, "true or false");
 
         return value;
     }

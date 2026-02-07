@@ -26,7 +26,7 @@ public static class CommandParser
         }
         catch (UnknownArgumentException ex)
         {
-            Console.WriteLine($"unknown argument '{ex.Name}'");
+            Console.WriteLine($"error: unknown argument '{ex.Name}'");
             string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
             DisplayHelp(assembly, operators.Select(x => x.Attribute));
             Environment.Exit(0);
@@ -35,6 +35,16 @@ public static class CommandParser
         {
             string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
             DisplayHelp(assembly, operators.Select(x => x.Attribute));
+            Environment.Exit(0);
+        }
+        catch (MissingParameterException ex)
+        {
+            Console.WriteLine($"error: {ex.Parameter} is required");
+            Environment.Exit(0);
+        }
+        catch (InvalidParameterException ex)
+        {
+            Console.WriteLine($"error: {ex.Parameter} must be {ex.Condition}");
             Environment.Exit(0);
         }
 
@@ -64,15 +74,18 @@ public static class CommandParser
     {
         // Temp display
         Console.WriteLine();
-        foreach (var token in tokens)
+
+        for (int i = 0; i < tokens.Count; i++)
         {
-            if (token is Operator op)
-            {
-                Console.WriteLine($"op: {op.Attribute.LongName}");
-                op.Attribute.Process(null);
-            }
-            else if (token is Variable var)
-                Console.WriteLine($"var: {var.Content}");
+            if (tokens[i] is not Operator op)
+                continue;
+
+            Console.WriteLine($"Processing op {op.Attribute.LongName}");
+            string? param = i < tokens.Count - 1 && tokens[i + 1] is Variable var ? var.Content : null;
+            object result = op.Attribute.Process(param);
+
+            Console.WriteLine($"Result is {result.ToString()}");
+            // Write result into the property
         }
     }
 

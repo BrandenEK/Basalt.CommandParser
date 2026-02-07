@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Basalt.CommandParser.Exceptions;
+using System;
 
 namespace Basalt.CommandParser.Attributes;
 
@@ -13,7 +14,7 @@ public class NewStringArgumentAttribute : NewArgumentAttribute
     public override object Process(string? parameter)
     {
         if (parameter is null)
-            throw new CommandParserException($"{ErrorName} is required");
+            throw new MissingParameterException(ErrorName);
 
         return parameter;
     }
