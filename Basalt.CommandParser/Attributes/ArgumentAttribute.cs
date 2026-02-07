@@ -25,7 +25,7 @@ public abstract class ArgumentAttribute : Attribute
             && longName.Any(c => c != '-')
             && !longName.StartsWith('-')
             && !longName.EndsWith('-')
-            && !longName.Zip(longName.Skip(1), (a, b) => a == b).Any(c => c)
+            && !longName.Contains("--")
             && longName.Length > 2;
 
         if (!validLongName)

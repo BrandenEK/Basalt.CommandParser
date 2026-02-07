@@ -28,6 +28,25 @@ public class DuplicateArguments : ProgramArguments
     public int B { get; set; }
 }
 
-// Mismatched property type
+public class WrongTypeArguments : ProgramArguments
+{
+    [StringArgument("long", "s", "desc")]
+    public int A { get; set; }
+}
 
 // Invalid names
+
+public class ValidArguments : ProgramArguments
+{
+    [StringArgument("string", "ss", "desc")]
+    public string String { get; set; }
+
+    [StringArgument("bool", "bb", "desc")]
+    public string Boolean { get; set; }
+
+    [StringArgument("int", "i", "desc")]
+    public string Integer { get; set; }
+
+    [StringArgument("float", "f", "desc")]
+    public string Float { get; set; }
+}
