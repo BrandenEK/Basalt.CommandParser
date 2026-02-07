@@ -16,7 +16,8 @@ public static class CommandParser
 
         var operators = command.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p));
+            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
+            .ToArray();
 
         // TODO: improve help method selection
         try

@@ -9,7 +9,7 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class FloatArgumentAttribute : NewArgumentAttribute
 {
-    public FloatArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description) { }
+    public FloatArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description, typeof(float)) { }
 
     public override object Process(string? parameter)
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Basalt.CommandParser.Exceptions;
+using System;
 using System.Linq;
 
 namespace Basalt.CommandParser.Attributes;
@@ -9,9 +10,6 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public abstract class NewArgumentAttribute : Attribute
 {
-    private readonly string _long;
-    private readonly string _short;
-
     public string LongName { get; }
 
     public string ShortName { get; }
@@ -20,7 +18,9 @@ public abstract class NewArgumentAttribute : Attribute
 
     public string Description { get; }
 
-    public NewArgumentAttribute(string longName, string shortName, string errorName, string description)
+    public Type DataType { get; }
+
+    public NewArgumentAttribute(string longName, string shortName, string errorName, string description, Type dataType)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)
             && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
@@ -28,7 +28,7 @@ public abstract class NewArgumentAttribute : Attribute
             && longName.Length > 2;
 
         if (!validLongName)
-            throw new ArgumentException($"Invalid long name ({longName})", nameof(longName));
+            throw new ImproperSetupException(longName, nameof(longName));
 
         bool validShortName = !string.IsNullOrEmpty(shortName)
             && shortName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
@@ -36,26 +36,24 @@ public abstract class NewArgumentAttribute : Attribute
             && shortName.Length <= 2;
 
         if (!validShortName)
-            throw new ArgumentException($"Invalid short name ({shortName})", nameof(shortName));
+            throw new ImproperSetupException(shortName, nameof(shortName));
 
         bool validErrorName = !string.IsNullOrEmpty(errorName)
             && errorName.All(c => char.IsLetter(c) && char.IsLower(c) || c == ' ');
 
         if (!validErrorName)
-            throw new ArgumentException($"Invalid error name ({errorName})", nameof(errorName));
+            throw new ImproperSetupException(errorName, nameof(errorName));
 
         bool validDescription = !string.IsNullOrEmpty(description);
 
         if (!validDescription)
-            throw new ArgumentException($"Invalid description ({description})", nameof(description));
-
-        _long = longName;
-        _short = shortName;
+            throw new ImproperSetupException(description, nameof(description));
 
         LongName = longName;
         ShortName = shortName;
         ErrorName = errorName;
         Description = description;
+        DataType = dataType;
     }
 
     public abstract object Process(string? parameter);

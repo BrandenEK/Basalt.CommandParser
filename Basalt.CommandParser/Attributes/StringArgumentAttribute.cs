@@ -9,7 +9,7 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class NewStringArgumentAttribute : NewArgumentAttribute
 {
-    public NewStringArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description) { }
+    public NewStringArgumentAttribute(string longName, string shortName, string errorName, string description) : base(longName, shortName, errorName, description, typeof(string)) { }
 
     public override object Process(string? parameter)
     {

@@ -29,14 +29,14 @@ public class TestArguments : BaseArguments
     [NewIntegerArgument("max-players", "mp", "max players", "The maximum number of players on the server")]
     public int MaxPlayers { get; set; }
 
-    [NewBooleanArgument("trimode", "tm", "triforce mode", "Some sort of secret mode")]
+    [NewBooleanArgument("trimode", "tmgf", "triforce mode", "Some sort of secret mode")]
     public bool TriforceMode { get; set; }
 
     [FloatArgument("update-ms", "u", "update time ms", "The milliseconds in between data reads")]
     public float UpdateTime { get; set; }
 
     [NewStringArgument("output", "o", "output path", "The file path to write the build file to")]
-    public string OutputPath { get; set; }
+    public bool OutputPath { get; set; }
 
     [NewStringArgument("configuration", "c", "configuration", "The config type that should be used")]
     public string Configuration { get; set; }
