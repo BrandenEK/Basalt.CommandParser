@@ -9,10 +9,7 @@ public class TempMain
     {
         Console.ForegroundColor = ConsoleColor.Gray;
 
-        //var invalidArgs = CommandParser.Parse<InvalidArguments>(args);
-
-        var testArgs = CommandParser.Parse<TestArguments>(args);
-        //Console.ReadKey(true);
+        var testArgs = CommandParser.ProcessArguments<NewTestArguments>(args);
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"DebugMode: {testArgs.DebugMode}");
@@ -25,7 +22,7 @@ public class TempMain
     }
 }
 
-public class TestArguments : BaseArguments
+public class NewTestArguments : ProgramArguments
 {
     [NewBooleanArgument("debug", "d", "Run in debug mode")]
     public bool DebugMode { get; set; }
@@ -50,9 +47,4 @@ public class TestArguments : BaseArguments
 
     //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
     //public bool DesktopSetup { get; set; }
-}
-
-public class InvalidArguments : BaseArguments
-{
-    public int Value { get; set; }
 }
