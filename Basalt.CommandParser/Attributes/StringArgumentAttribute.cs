@@ -7,9 +7,9 @@ namespace Basalt.CommandParser.Attributes;
 /// A command line argument that accepts a string
 /// </summary>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class NewStringArgumentAttribute : NewArgumentAttribute
+public class StringArgumentAttribute : ArgumentAttribute
 {
-    public NewStringArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(string)) { }
+    public StringArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description, typeof(string)) { }
 
     public override object Process(string? parameter)
     {

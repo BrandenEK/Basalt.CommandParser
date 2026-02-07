@@ -23,8 +23,8 @@ public class ProgramArguments
     private IEnumerable<Operator> LoadOperators()
     {
         Operator[] operators = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p))
+            .Where(p => p.IsDefined(typeof(ArgumentAttribute), false))
+            .Select(p => new Operator((ArgumentAttribute)p.GetCustomAttributes(typeof(ArgumentAttribute), false)[0], p))
             .ToArray();
 
         if (operators.Length == 1)

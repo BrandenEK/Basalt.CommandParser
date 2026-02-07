@@ -7,7 +7,7 @@ namespace Basalt.CommandParser.Attributes;
 /// A command line argument that displays a help message
 /// </summary>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class HelpArgumentAttribute : NewArgumentAttribute
+internal class HelpArgumentAttribute : ArgumentAttribute
 {
     public HelpArgumentAttribute() : base("help", "h", "Show help", typeof(bool)) { }
 
