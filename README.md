@@ -2,6 +2,9 @@
 
 Allows you to define properties that are automatically set upon processing the arguments
 
+> [!NOTE]
+> This documentation is out of date.  The new method is similar, but utilizes the CommandParser.Process() method instead.
+
 ```cs
 internal class Program
 {
