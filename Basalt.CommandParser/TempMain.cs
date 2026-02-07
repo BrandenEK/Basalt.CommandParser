@@ -45,6 +45,9 @@ public class TestArguments : BaseArguments
     [NewStringArgument("configuration", "c", "The config type that should be used")]
     public string Configuration { get; set; }
 
+    //[NewStringArgument("new-prop-x", "p", "A test property")]
+    //public string NewProp { get; set; }
+
     //[NewBooleanArgument("desktop", "d", "Set up as a desktop")]
     //public bool DesktopSetup { get; set; }
 }

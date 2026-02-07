@@ -23,6 +23,9 @@ public abstract class NewArgumentAttribute : Attribute
         bool validLongName = !string.IsNullOrEmpty(longName)
             && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
             && longName.Any(c => c != '-')
+            && !longName.StartsWith('-')
+            && !longName.EndsWith('-')
+            && !longName.Zip(longName.Skip(1), (a, b) => a == b).Any(c => c)
             && longName.Length > 2;
 
         if (!validLongName)
