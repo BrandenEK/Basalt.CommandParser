@@ -7,5 +7,5 @@ namespace Basalt.CommandParser.Attributes;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class NewBooleanArgumentAttribute : NewArgumentAttribute
 {
-    public NewBooleanArgumentAttribute(string longName, string shortName) : base(longName, shortName) { }
+    public NewBooleanArgumentAttribute(string longName, string shortName, string description) : base(longName, shortName, description) { }
 }

@@ -25,17 +25,11 @@ public static class CommandParser
 
             if (curr.StartsWith("--"))
             {
-                //if (curr.Length == 2)
-                //    continue;
-
                 // Make sure long name exists as an attribute
                 tokens.Add(new Operator(curr[2..]));
             }
             else if (curr.StartsWith("-"))
             {
-                //if (curr.Length == 1)
-                //    continue;
-
                 // Make sure short name exists as an attribute
                 tokens.Add(new Operator(curr[1..]));
             }
@@ -51,5 +45,10 @@ public static class CommandParser
         }
 
         return command;
+    }
+
+    private static void DisplayHelp(IEnumerable<NewArgumentAttribute> attributes)
+    {
+
     }
 }

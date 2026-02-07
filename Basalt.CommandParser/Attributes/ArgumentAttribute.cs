@@ -14,7 +14,9 @@ public abstract class NewArgumentAttribute : Attribute
 
     public string ShortName { get; }
 
-    public NewArgumentAttribute(string longName, string shortName)
+    public string Description { get; }
+
+    public NewArgumentAttribute(string longName, string shortName, string description)
     {
         bool validLongName = !string.IsNullOrEmpty(longName)
             && longName.All(c => char.IsLetter(c) && char.IsLower(c) || c == '-')
@@ -32,10 +34,16 @@ public abstract class NewArgumentAttribute : Attribute
         if (!validShortName)
             throw new ArgumentException($"Invalid short name ({shortName})", nameof(shortName));
 
+        bool validDescription = !string.IsNullOrEmpty(description);
+
+        if (!validDescription)
+            throw new ArgumentException($"Invalid description ({description})", nameof(description));
+
         _long = longName;
         _short = shortName;
 
         LongName = longName;
         ShortName = shortName;
+        Description = description;
     }
 }
