@@ -41,12 +41,12 @@ public class ValidArguments : ProgramArguments
     [StringArgument("string", "ss", "desc")]
     public string String { get; set; }
 
-    [StringArgument("bool", "bb", "desc")]
-    public string Boolean { get; set; }
+    [BooleanArgument("bool", "bb", "desc")]
+    public bool Boolean { get; set; }
 
-    [StringArgument("int", "i", "desc")]
-    public string Integer { get; set; }
+    [IntegerArgument("int", "i", "desc")]
+    public int Integer { get; set; }
 
-    [StringArgument("float", "f", "desc")]
-    public string Float { get; set; }
+    [FloatArgument("float", "f", "desc")]
+    public float Float { get; set; }
 }
