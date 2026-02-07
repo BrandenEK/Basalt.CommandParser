@@ -1,5 +1,7 @@
 ﻿using Basalt.CommandParser.Attributes;
+using Basalt.CommandParser.Exceptions;
 using Basalt.CommandParser.Tokens;
+using System.Linq;
 
 namespace Basalt.CommandParser;
 
@@ -9,33 +11,24 @@ public static class CommandParser
     {
         var command = new TArgs();
 
-        var tempAttributes = command.GetType().GetProperties()
+        var operators = command.GetType().GetProperties()
             .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
-            .ToDictionary(p => (NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p => p);
+            .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p));
 
-        List<Token> tokens = ParseTokens(args);
-
-        // Temp display
-        Console.WriteLine();
-        foreach (var token in tokens)
+        try
         {
-            Console.WriteLine(token.GetType().Name + ": " + token.Text);
+            List<Token> tokens = ParseTokens(args, operators);
+            EvaluateTokens(tokens);
         }
-
-        // TODO: or if any unknown params
-        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
+        catch (UnknownArgumentException ex)
         {
-            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-            DisplayHelp(assembly, tempAttributes.Select(x => x.Key));
-            Environment.Exit(0);
-        }
 
-        EvaluateTokens(tokens);
+        }
 
         return command;
     }
 
-    private static List<Token> ParseTokens(string[] args)
+    private static List<Token> ParseTokens(string[] args, IEnumerable<Operator> operators)
     {
         var tokens = new List<Token>();
 
@@ -47,19 +40,16 @@ public static class CommandParser
             if (curr.Length > 0 && curr.All(c => c == '-'))
                 continue;
 
-            if (curr.StartsWith("--"))
+            try
             {
-                // Make sure long name exists as an attribute
-                tokens.Add(new Operator(curr[2..]));
+                Token token = CreateToken(curr, operators);
+                tokens.Add(token);
             }
-            else if (curr.StartsWith("-"))
+            catch (CommandParserException ex)
             {
-                // Make sure short name exists as an attribute
-                tokens.Add(new Operator(curr[1..]));
-            }
-            else
-            {
-                tokens.Add(new Variable(curr));
+                string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+                DisplayHelp(assembly, operators.Select(x => x.Attribute));
+                Environment.Exit(0);
             }
         }
 
@@ -68,7 +58,41 @@ public static class CommandParser
 
     private static void EvaluateTokens(List<Token> tokens)
     {
+        // TODO: or if any unknown params
+        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
+        {
+            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+            DisplayHelp(assembly, operators.Select(x => x.Attribute));
+            Environment.Exit(0);
+        }
 
+        // Temp display
+        Console.WriteLine();
+        foreach (var token in tokens)
+        {
+            Console.WriteLine(token.GetType().Name + ": " + token.Text);
+        }
+    }
+
+    private static Token CreateToken(string argument, IEnumerable<Operator> operators)
+    {
+        if (argument.StartsWith("--"))
+        {
+            string name = argument[2..];
+            Operator? op = operators.FirstOrDefault(o => o.Attribute.LongName == name);
+
+            return op is null ? throw new CommandParserException($"unknown argument '{name}'") : op;
+        }
+
+        if (argument.StartsWith("-"))
+        {
+            string name = argument[1..];
+            Operator? op = operators.FirstOrDefault(o => o.Attribute.ShortName == name);
+
+            return op is null ? throw new CommandParserException($"unknown argument '{name}'") : op;
+        }
+
+        return new Variable(argument);
     }
 
     private static void DisplayHelp(string assembly, IEnumerable<NewArgumentAttribute> attributes)
