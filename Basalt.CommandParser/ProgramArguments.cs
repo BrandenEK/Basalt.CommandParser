@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Basalt.CommandParser;
 
@@ -97,27 +96,5 @@ public class ProgramArguments
         }
 
         return new Variable(argument);
-    }
-
-    private void DisplayHelp(string assembly, IEnumerable<NewArgumentAttribute> attributes)
-    {
-        Console.WriteLine($"Usage: {assembly} [arguments]");
-        Console.WriteLine();
-        Console.WriteLine("Arguments:");
-
-        int maxLength = attributes.Max(x => x.LongName.Length);
-
-        foreach (var attribute in attributes)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append("  ");
-            sb.Append($"-{attribute.ShortName}".PadLeft(3, ' '));
-            sb.Append("|--");
-            sb.Append(attribute.LongName.PadRight(maxLength + 2));
-            sb.Append(attribute.Description);
-
-            Console.WriteLine(sb);
-        }
     }
 }
