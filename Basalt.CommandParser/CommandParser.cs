@@ -17,6 +17,7 @@ public static class CommandParser
             .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
             .Select(p => new Operator((NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p));
 
+        // TODO: improve help method selection
         try
         {
             List<Token> tokens = ParseTokens(args, operators);
@@ -24,7 +25,16 @@ public static class CommandParser
         }
         catch (UnknownArgumentException ex)
         {
-
+            Console.WriteLine($"unknown argument '{ex.Name}'");
+            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+            DisplayHelp(assembly, operators.Select(x => x.Attribute));
+            Environment.Exit(0);
+        }
+        catch (HelpArgumentException ex)
+        {
+            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+            DisplayHelp(assembly, operators.Select(x => x.Attribute));
+            Environment.Exit(0);
         }
 
         return command;
@@ -42,17 +52,8 @@ public static class CommandParser
             if (curr.Length > 0 && curr.All(c => c == '-'))
                 continue;
 
-            try
-            {
-                Token token = CreateToken(curr, operators);
-                tokens.Add(token);
-            }
-            catch (CommandParserException ex)
-            {
-                string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-                DisplayHelp(assembly, operators.Select(x => x.Attribute));
-                Environment.Exit(0);
-            }
+            Token token = CreateToken(curr, operators);
+            tokens.Add(token);
         }
 
         return tokens;
@@ -62,11 +63,7 @@ public static class CommandParser
     {
         // TODO: or if any unknown params
         if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
-        {
-            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-            DisplayHelp(assembly, operators.Select(x => x.Attribute));
-            Environment.Exit(0);
-        }
+            throw new HelpArgumentException();
 
         // Temp display
         Console.WriteLine();
@@ -83,7 +80,7 @@ public static class CommandParser
             string name = argument[2..];
             Operator? op = operators.FirstOrDefault(o => o.Attribute.LongName == name);
 
-            return op is null ? throw new CommandParserException($"unknown argument '{name}'") : op;
+            return op is null ? throw new UnknownArgumentException(name) : op;
         }
 
         if (argument.StartsWith("-"))
@@ -91,7 +88,7 @@ public static class CommandParser
             string name = argument[1..];
             Operator? op = operators.FirstOrDefault(o => o.Attribute.ShortName == name);
 
-            return op is null ? throw new CommandParserException($"unknown argument '{name}'") : op;
+            return op is null ? throw new UnknownArgumentException(name) : op;
         }
 
         return new Variable(argument);
