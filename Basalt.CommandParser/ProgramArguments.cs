@@ -13,7 +13,7 @@ public class ProgramArguments
     [HelpArgument]
     protected bool ShowHelp { get; }
 
-    public void Process(string[] args)
+    internal void Process(string[] args)
     {
         IEnumerable<Operator> operators = LoadOperators();
         List<Token> tokens = ParseTokens(args, operators);

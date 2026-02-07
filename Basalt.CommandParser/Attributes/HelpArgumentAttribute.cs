@@ -11,7 +11,7 @@ internal class HelpArgumentAttribute : ArgumentAttribute
 {
     public HelpArgumentAttribute() : base("help", "h", "Show help", typeof(bool)) { }
 
-    public override object Process(string? parameter)
+    internal override object Process(string? parameter)
     {
         throw new HelpArgumentException();
     }
