@@ -13,6 +13,30 @@ public static class CommandParser
             .Where(p => p.IsDefined(typeof(NewArgumentAttribute), false))
             .ToDictionary(p => (NewArgumentAttribute)p.GetCustomAttributes(typeof(NewArgumentAttribute), false)[0], p => p);
 
+        List<Token> tokens = ParseTokens(args);
+
+        // Temp display
+        Console.WriteLine();
+        foreach (var token in tokens)
+        {
+            Console.WriteLine(token.GetType().Name + ": " + token.Text);
+        }
+
+        // TODO: or if any unknown params
+        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
+        {
+            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
+            DisplayHelp(assembly, tempAttributes.Select(x => x.Key));
+            Environment.Exit(0);
+        }
+
+        EvaluateTokens(tokens);
+
+        return command;
+    }
+
+    private static List<Token> ParseTokens(string[] args)
+    {
         var tokens = new List<Token>();
 
         for (int i = 0; i < args.Length; i++)
@@ -39,20 +63,12 @@ public static class CommandParser
             }
         }
 
-        Console.WriteLine();
-        foreach (var token in tokens)
-        {
-            Console.WriteLine(token.GetType().Name + ": " + token.Text);
-        }
+        return tokens;
+    }
 
-        if (tokens.Any(x => x is Operator && x.Text == "help" || x.Text == "h"))
-        {
-            string assembly = command.GetType().Assembly.GetName().Name ?? "unndefined";
-            DisplayHelp(assembly, tempAttributes.Select(x => x.Key));
-            Environment.Exit(0);
-        }
+    private static void EvaluateTokens(List<Token> tokens)
+    {
 
-        return command;
     }
 
     private static void DisplayHelp(string assembly, IEnumerable<NewArgumentAttribute> attributes)

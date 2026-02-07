@@ -8,7 +8,7 @@ public class TempMain
     static void Main(string[] args)
     {
         CommandParser.Parse<TestArguments>(args);
-        Console.ReadKey(true);
+        //Console.ReadKey(true);
     }
 }
 
